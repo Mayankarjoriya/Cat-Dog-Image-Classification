@@ -6,7 +6,7 @@ description = "It's a simple Image classifier model of Cat and Dog deoployed usi
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "fastapi>=0.137.1",
+    "fastapi>  =0.137.1",
     "opencv-python>=4.13.0.92",
     "pillow>=12.2.0",
     "python-multipart>=0.0.32",

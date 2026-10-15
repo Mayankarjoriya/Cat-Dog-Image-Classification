@@ -3,7 +3,18 @@ from fastapi.responses import JSONResponse
 import numpy as np
 from PIL import Image
 import io
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 import tensorflow as tf
+# Disable GPU to avoid CUDA initialization errors
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+    try:
+        tf.config.set_visible_devices([], 'GPU')
+    except Exception as e:
+        # Fallback: ignore if setting fails
+        pass
+
 import cv2
 
 import builtins
@@ -17,6 +28,11 @@ model = None
 
 def load_model():
     global model
+    # Ensure TensorFlow runs on CPU only
+    try:
+        tf.config.set_visible_devices([], 'GPU')
+    except Exception:
+        pass
     if model is None:
         model = tf.keras.models.load_model("image_CNN.keras", safe_mode=False,custom_objects={'tf':tf})
         
