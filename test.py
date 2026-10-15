@@ -24,7 +24,7 @@ try:
     # print("✅ Model loaded successfully!", flush=True)
     print(model.summary())
 
-    sample_image = cv2.imread('dog.png')
+    sample_image = cv2.imread('images/dog.png')
     sample_image = cv2.cvtColor(sample_image, cv2.COLOR_BGR2RGB)
 
     img_resized = cv2.resize(sample_image, (128,128))

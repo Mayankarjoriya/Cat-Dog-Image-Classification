@@ -1,12 +1,41 @@
-# Python-generated files
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[oc]
-build/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
 dist/
+build/
 wheels/
-*.egg-info
-.Python-version
+*.egg-info/
+*.egg
 
 # Virtual environments
 .venv/
-.env/
+venv/
+env/
+ENV/
+
+# Python version management
+.python-version
+
+# Environment variables
+.env
+.env.local
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs
+*.log

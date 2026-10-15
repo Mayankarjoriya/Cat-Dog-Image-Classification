@@ -1,95 +1,127 @@
-# CNN Classifier
+# Cat vs Dog CNN Classifier 🐱🐶
 
-## Overview
-
-This repository contains a simple **Cat vs. Dog image classification** service built with **FastAPI** for the backend API and **Streamlit** for a minimal frontend UI. The model is a pre‑trained Keras CNN stored in `image_CNN.keras` and can classify images of cats and dogs with confidence scores.
+A machine learning image classification service that identifies whether an uploaded image is a **Cat** or a **Dog**, complete with confidence scores. Built with a convolutional neural network (CNN) in **TensorFlow/Keras**, served via a **FastAPI** backend, and presented through an interactive **Streamlit** web UI.
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
-- `main.py` – FastAPI application exposing `/predict` endpoint.
-- `frontend.py` – Streamlit app for uploading images and displaying predictions.
-- `image_CNN.keras` – Trained TensorFlow/Keras model.
-- `pyproject.toml` – Project metadata and dependencies.
-- `README.md` – This documentation.
-
----
-
-## Prerequisites
-
-- **Python ≥ 3.12** (as specified in `pyproject.toml`).
-- `git` (to clone the repository).
-- Internet connection for downloading the required Python packages.
-
----
-
-## Setup Instructions
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/cnn-classifier.git
-   cd cnn-classifier
-   ```
-
-2. **Create a virtual environment** (optional but recommended)
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate   # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   The project uses a `pyproject.toml` file. Install the required packages with:
-   ```bash
-   pip install .
-   # Alternatively, you can install directly from the TOML dependencies:
-   # pip install fastapi opencv-python pillow python-multipart streamlit uvicorn
-   ```
-
-4. **Run the FastAPI backend**
-   ```bash
-   uvicorn main:app --host 0.0.0.0 --port 8080
-   ```
-   The API will be available at `http://localhost:8080`.
-
-5. **Run the Streamlit frontend** (in a separate terminal)
-   ```bash
-   streamlit run frontend.py
-   ```
-   Open the displayed URL (usually `http://localhost:8501`) in your browser.
+```text
+CNN_classifier/
+├── images/             # Sample images for testing (cat.png, dog.png, etc.)
+│   ├── cat.png
+│   ├── dog.png
+│   ├── image.png
+│   └── Pasted image.png
+├── frontend.py         # Streamlit web interface
+├── main.py             # FastAPI backend API exposing /predict
+├── test.py             # Standalone Python script for quick CLI model testing
+├── image_CNN.keras     # Trained TensorFlow/Keras CNN model
+├── pyproject.toml      # Project configuration and dependencies
+├── uv.lock             # Lockfile for reproducible dependencies
+├── .gitignore          # Git ignore specifications
+└── README.md           # Project documentation
+```
 
 ---
 
-## Usage
+## ⚙️ Prerequisites
 
-### Via the Streamlit UI
+- **Python 3.12** (recommended; TensorFlow 2.x and Keras 3 may have stability issues on Python 3.13)
+- [uv](https://docs.astral.sh/uv/) (recommended package manager) or standard `pip`
 
-1. Open the Streamlit app URL.
-2. Upload a JPG/PNG image of a cat or dog.
-3. Click **Predict**.
-4. The result (label and confidence) will appear on the right side.
+---
 
-### Direct API call (cURL example)
+## 🚀 Setup Instructions
+
+### 1. Clone the Repository
 
 ```bash
+git clone https://github.com/Mayankarjoriya/Cat-Dog-Image-Classification.git
+cd Cat-Dog-Image-Classification
+```
+
+### 2. Install Dependencies
+
+#### Using `uv` (Recommended)
+```bash
+uv sync
+```
+
+#### Using standard `venv` and `pip`
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate       # On Windows: .venv\Scripts\activate
+pip install -e .
+```
+
+---
+
+## 🏃 Running the Application
+
+### Step 1: Start the FastAPI Backend
+
+Run the backend server on port **8080**:
+
+```bash
+uv run uvicorn main:app --host 0.0.0.0 --port 8080 --reload
+```
+*(Or if your `.venv` is activated: `uvicorn main:app --host 0.0.0.0 --port 8080 --reload`)*
+
+- API URL: `http://localhost:8080`
+- Interactive API Docs (Swagger): `http://localhost:8080/docs`
+
+### Step 2: Start the Streamlit Frontend
+
+In a **separate terminal**, run the Streamlit app:
+
+```bash
+uv run streamlit run frontend.py
+```
+*(Or if your `.venv` is activated: `streamlit run frontend.py`)*
+
+- Open `http://localhost:8501` in your browser.
+
+---
+
+## 🧪 Testing
+
+### 1. Using the Streamlit UI
+1. Open `http://localhost:8501`.
+2. Upload any image (or select one from the `images/` directory).
+3. Click **Predict** to view classification and confidence level.
+
+### 2. Using cURL (API)
+```bash
 curl -X POST "http://localhost:8080/predict" \
-     -F "file=@path/to/your/image.jpg"
+     -F "file=@images/dog.png"
 ```
-Response example:
+**Example Response:**
 ```json
-{ "label": "Dog", "confidence": 92.34 }
+{
+  "label": "Dog",
+  "confidence": 96.09
+}
+```
+
+### 3. Using the Test Script
+```bash
+uv run python test.py
 ```
 
 ---
 
-## Troubleshooting
+## 🛠️ Troubleshooting
 
-- **Model loading errors** – Ensure `image_CNN.keras` is present in the project root.
-- **Port conflicts** – Change the port in the `uvicorn` command (e.g., `--port 8000`).
-- **Missing dependencies** – Re‑install with `pip install .` or manually add any missing packages.
+- **Connection Refused (`[Errno 111]`)**:
+  Ensure the FastAPI server is running specifically on port **8080** (`--port 8080`), matching the endpoint URL configured in `frontend.py`.
+- **Remote End Closed Connection / Silent Crash**:
+  Ensure you are running under **Python 3.12** in `.venv` rather than a system/Anaconda Python 3.13 environment (`uv run` ensures the correct environment is used).
+- **Missing Model File**:
+  Verify that `image_CNN.keras` is located in the project root directory.
 
 ---
 
-## License
+## 📄 License
 
-This project is provided for educational purposes and is free to use under the MIT License.
+This project is licensed under the MIT License.
